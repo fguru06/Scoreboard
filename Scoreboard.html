@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard</title>
+</head>
+<body>
+   <style>
+    .Buttons_and_Scoreboard {
+        text-align: center;
+    }
+    .Musadiv {
+        background-color: #FF5C00;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    .Musabuttons {
+        background-color: #FF5C00;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+   </style>
+    <div class="Buttons_and_Scoreboard">
+        <p>Musa's Points:</p><p id="musaPoints">0</p>
+        
+        <p>Jozy's Points:</p><p id="jozyPoints">0</p>
+        
+        <div class="Musadiv"><button class="Musabuttons" onclick="addMusaPoints()">Musa got another point! Click Here.</button>
+        <button class="Musabuttons" onclick="subtractMusaPoints();">Oops too many points, Lets take some out! Click here.</button></div>
+    <br><br>
+        <button onclick="addJozyPoints()">Jozy got another point! Click Here.</button>
+        <button onclick="subtractJozyPoints()">Oops too many points, Lets take some out! Click here.</button>
+        <br><br>
+        <button onclick="resetPoints()">Time to start a new game! Click here.</button>
+    </div>
+
+<script>
+    function addMusaPoints() {
+        const musaPointsElement = document.getElementById('musaPoints');
+        let musaPoints = parseInt(musaPointsElement.textContent, 10);
+        musaPoints++;
+        musaPointsElement.textContent = musaPoints;
+    }
+
+    function subtractMusaPoints() {
+        const musaPointsElement = document.getElementById('musaPoints');
+        let musaPoints = parseInt(musaPointsElement.textContent, 10);
+        musaPoints--;
+        musaPointsElement.textContent = musaPoints;
+    }
+
+    function resetPoints() {
+        document.getElementById('musaPoints').textContent = '0';
+        document.getElementById('jozyPoints').textContent = '0';
+    }
+
+    function addJozyPoints() {
+        const jozyPointsElement = document.getElementById('jozyPoints');
+        let jozyPoints = parseInt(jozyPointsElement.textContent, 10);
+        jozyPoints++;
+        jozyPointsElement.textContent = jozyPoints;
+    }
+
+    function subtractJozyPoints() {
+        const jozyPointsElement = document.getElementById('jozyPoints');
+        let jozyPoints = parseInt(jozyPointsElement.textContent, 10);
+        jozyPoints--;
+        jozyPointsElement.textContent = jozyPoints;
+    }
+
+    
+</script>
+</body>
+</html>
