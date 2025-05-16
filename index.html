@@ -9,19 +9,9 @@
    <style>
     .Buttons_and_Scoreboard {
         text-align: center;
+        font-size: 20px;
     }
-    .Musadiv {
-        background-color: #FF5C00;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-    }
+    
     .Musabuttons {
         background-color: #FF5C00;
         border: none;
@@ -30,23 +20,62 @@
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 16px;
+        font-size: 15px;
         margin: 4px 2px;
         cursor: pointer;
+        border-radius: 12px;
+        transition-duration: 0.4s;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
     }
+
+    .Jozybuttons {
+        background-color: green;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 15px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 12px;
+        transition-duration: 0.4s;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .Restart {
+        background-color: #e40505;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 50px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 12px;
+        transition-duration: 0.4s;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+
    </style>
     <div class="Buttons_and_Scoreboard">
-        <p>Musa's Points:</p><p id="musaPoints">0</p>
-        
-        <p>Jozy's Points:</p><p id="jozyPoints">0</p>
-        
-        <div class="Musadiv"><button class="Musabuttons" onclick="addMusaPoints()">Musa got another point! Click Here.</button>
-        <button class="Musabuttons" onclick="subtractMusaPoints();">Oops too many points, Lets take some out! Click here.</button></div>
-    <br><br>
-        <button onclick="addJozyPoints()">Jozy got another point! Click Here.</button>
-        <button onclick="subtractJozyPoints()">Oops too many points, Lets take some out! Click here.</button>
-        <br><br>
-        <button onclick="resetPoints()">Time to start a new game! Click here.</button>
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <span style="margin-right: 16px;">Musa's Points: <span id="musaPoints">0</span></span>
+            <button class="Musabuttons" onclick="addMusaPoints()">+1</button>
+            <button class="Musabuttons" onclick="subtractMusaPoints();">-1</button>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <span style="margin-right: 16px;">Jozy's Points: <span id="jozyPoints">0</span></span>
+            <button class="Jozybuttons" onclick="addJozyPoints()">+1</button>
+            <button class="Jozybuttons" onclick="subtractJozyPoints()">-1</button>
+        </div>
+        <div style="text-align: center;">
+            <button class="Restart"; onclick="resetPoints()">RESTART</button>
+        </div>
     </div>
 
 <script>
