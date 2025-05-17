@@ -47,3 +47,12 @@ body {
     border-radius: 12px;
     transition-duration: 0.4s;
 }
+#scoreImage1, #scoreImage2 {
+    display: none;
+    max-height: 100px;
+    transition: opacity 0.5s;
+    opacity: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
