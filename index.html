@@ -97,7 +97,7 @@
     const el = document.getElementById('musaPoints');
     let val = parseInt(el.textContent, 10) + 1;
     updateFirebaseScore('scores/musaPoints', val);
-    el.textContent = val;
+    // Don't set el.textContent here, let Firebase update it via onValue
     showScoreImage('scoreImage1', 'Scoreboard_Images_And_Music/+1 Musa Point!.png');
     playSound('Scoreboard_Images_And_Music/crowd-cheering.mp3');
     checkWinner();
@@ -106,7 +106,6 @@
     const el = document.getElementById('musaPoints');
     let val = parseInt(el.textContent, 10) - 1;
     updateFirebaseScore('scores/musaPoints', val);
-    el.textContent = val;
     playSound('Scoreboard_Images_And_Music/Awww.mp3');
     checkWinner();
   };
@@ -114,7 +113,6 @@
     const el = document.getElementById('jozyPoints');
     let val = parseInt(el.textContent, 10) + 1;
     updateFirebaseScore('scores/jozyPoints', val);
-    el.textContent = val;
     showScoreImage('scoreImage1', 'Scoreboard_Images_And_Music/+1 Jozy Point!.png');
     playSound('Scoreboard_Images_And_Music/crowd-cheering.mp3');
     checkWinner();
@@ -123,15 +121,12 @@
     const el = document.getElementById('jozyPoints');
     let val = parseInt(el.textContent, 10) - 1;
     updateFirebaseScore('scores/jozyPoints', val);
-    el.textContent = val;
     playSound('Scoreboard_Images_And_Music/Awww.mp3');
     checkWinner();
   };
   window.resetPoints = function() {
     updateFirebaseScore('scores/musaPoints', 0);
     updateFirebaseScore('scores/jozyPoints', 0);
-    document.getElementById('musaPoints').textContent = '0';
-    document.getElementById('jozyPoints').textContent = '0';
     playSound('Scoreboard_Images_And_Music/Dun-Dun-Duun.mp3');
     checkWinner();
   };
@@ -139,7 +134,6 @@
     const el = document.getElementById('musaPointss');
     let val = parseInt(el.textContent, 10) + 1;
     updateFirebaseScore('scores/musaWins', val);
-    el.textContent = val;
     showScoreImage('scoreImage2', 'Scoreboard_Images_And_Music/+1 Musa Win!.png');
     playSound('Scoreboard_Images_And_Music/crowd-cheering.mp3');
   };
@@ -147,14 +141,12 @@
     const el = document.getElementById('musaPointss');
     let val = parseInt(el.textContent, 10) - 1;
     updateFirebaseScore('scores/musaWins', val);
-    el.textContent = val;
     playSound('Scoreboard_Images_And_Music/Awww.mp3');
   };
   window.addJozyPointss = function() {
     const el = document.getElementById('jozyPointss');
     let val = parseInt(el.textContent, 10) + 1;
     updateFirebaseScore('scores/jozyWins', val);
-    el.textContent = val;
     showScoreImage('scoreImage2', 'Scoreboard_Images_And_Music/+1 Jozy Win!.png');
     playSound('Scoreboard_Images_And_Music/crowd-cheering.mp3');
   };
@@ -162,14 +154,11 @@
     const el = document.getElementById('jozyPointss');
     let val = parseInt(el.textContent, 10) - 1;
     updateFirebaseScore('scores/jozyWins', val);
-    el.textContent = val;
     playSound('Scoreboard_Images_And_Music/Awww.mp3');
   };
   window.resetPointss = function() {
     updateFirebaseScore('scores/musaWins', 0);
     updateFirebaseScore('scores/jozyWins', 0);
-    document.getElementById('musaPointss').textContent = '0';
-    document.getElementById('jozyPointss').textContent = '0';
     playSound('Scoreboard_Images_And_Music/Dun-Dun-Duun.mp3');
   };
 </script>
