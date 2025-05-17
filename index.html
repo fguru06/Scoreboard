@@ -4,64 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scoreboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <style>
-    .Buttons_and_Scoreboard {
-        text-align: center;
-        font-size: 20px;
-    }
-    
-    .Musabuttons {
-        background-color: #FF5C00;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 15px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 12px;
-        transition-duration: 0.4s;
-        font-family:Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-    .Jozybuttons {
-        background-color: green;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 15px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 12px;
-        transition-duration: 0.4s;
-        font-family:Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-    .Restart {
-        background-color: #e40505;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 55px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 12px;
-        transition-duration: 0.4s;
-        font-family:Verdana, Geneva, Tahoma, sans-serif;
-    }
-
-
-   </style>
     <div class="Buttons_and_Scoreboard">
         <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
             <span style="margin-right: 16px;">Musa's Points: <span id="musaPoints">0</span></span>
@@ -74,7 +19,7 @@
             <button class="Jozybuttons" onclick="subtractJozyPoints()">-1</button>
         </div>
         <div style="text-align: center;">
-            <button class="Restart"; onclick="resetPoints()">RESTART</button>
+            <button class="Restart" onclick="resetPoints()">RESTART</button>
         </div>
     </div>
     <br>
@@ -91,78 +36,9 @@
             <button class="Jozybuttons" onclick="subtractJozyPointss()">-1</button>
         </div>
         <div style="text-align: center;">
-            <button class="Restart"; onclick="resetPointss()">RESTART</button>
+            <button class="Restart" onclick="resetPointss()">RESTART</button>
         </div>
     </div>
-
-<script>
-    function addMusaPoints() {
-        const musaPointsElement = document.getElementById('musaPoints');
-        let musaPoints = parseInt(musaPointsElement.textContent, 10);
-        musaPoints++;
-        musaPointsElement.textContent = musaPoints;
-    }
-
-    function subtractMusaPoints() {
-        const musaPointsElement = document.getElementById('musaPoints');
-        let musaPoints = parseInt(musaPointsElement.textContent, 10);
-        musaPoints--;
-        musaPointsElement.textContent = musaPoints;
-    }
-
-    function resetPoints() {
-        document.getElementById('musaPoints').textContent = '0';
-        document.getElementById('jozyPoints').textContent = '0';
-    }
-
-    function addJozyPoints() {
-        const jozyPointsElement = document.getElementById('jozyPoints');
-        let jozyPoints = parseInt(jozyPointsElement.textContent, 10);
-        jozyPoints++;
-        jozyPointsElement.textContent = jozyPoints;
-    }
-
-    function subtractJozyPoints() {
-        const jozyPointsElement = document.getElementById('jozyPoints');
-        let jozyPoints = parseInt(jozyPointsElement.textContent, 10);
-        jozyPoints--;
-        jozyPointsElement.textContent = jozyPoints;
-    }
-
-    function addMusaPointss() {
-        const musaPointsElement = document.getElementById('musaPointss');
-        let musaPoints = parseInt(musaPointsElement.textContent, 10);
-        musaPoints++;
-        musaPointsElement.textContent = musaPoints;
-    }
-
-    function subtractMusaPointss() {
-        const musaPointsElement = document.getElementById('musaPointss');
-        let musaPoints = parseInt(musaPointsElement.textContent, 10);
-        musaPoints--;
-        musaPointsElement.textContent = musaPoints;
-    }
-
-    function resetPointss() {
-        document.getElementById('musaPointss').textContent = '0';
-        document.getElementById('jozyPointss').textContent = '0';
-    }
-
-    function addJozyPointss() {
-        const jozyPointsElement = document.getElementById('jozyPointss');
-        let jozyPoints = parseInt(jozyPointsElement.textContent, 10);
-        jozyPoints++;
-        jozyPointsElement.textContent = jozyPoints;
-    }
-
-    function subtractJozyPointss() {
-        const jozyPointsElement = document.getElementById('jozyPointss');
-        let jozyPoints = parseInt(jozyPointsElement.textContent, 10);
-        jozyPoints--;
-        jozyPointsElement.textContent = jozyPoints;
-    }
-
-    
-</script>
+    <script src="script.js"></script>
 </body>
 </html>
