@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div style="text-align:center; margin-bottom: 16px;">
+      <span id="winnerMessage">&nbsp;</span>
+    </div>
     <div class="Buttons_and_Scoreboard">
         <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
             <span style="margin-right: 16px;">Musa's Points: <span id="musaPoints">0</span></span>
@@ -46,5 +49,129 @@
       <img id="scoreImage2" style="display:none; max-height:100px; transition: opacity 0.5s; opacity:0;" />
     </div>
     <script src="script.js"></script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-analytics.js";
+  import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js";
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBlW-0qn7a1KfT_bdChA4fYvXiMn0d4264",
+    authDomain: "scoreboard-4f0e7.firebaseapp.com",
+    projectId: "scoreboard-4f0e7",
+    storageBucket: "scoreboard-4f0e7.firebasestorage.app",
+    messagingSenderId: "346607862937",
+    appId: "1:346607862937:web:84052b5e3099e0b6366408",
+    measurementId: "G-5B0WP8CXEX"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // Helper functions to update and sync scoreboard
+  function updateFirebaseScore(path, value) {
+    set(ref(db, path), value);
+  }
+
+  function syncScoreFromFirebase(path, elementId) {
+    const scoreRef = ref(db, path);
+    onValue(scoreRef, (snapshot) => {
+      const val = snapshot.val();
+      if (val !== null) {
+        document.getElementById(elementId).textContent = val;
+      }
+    });
+  }
+
+  // Sync all scores on page load
+  syncScoreFromFirebase('scores/musaPoints', 'musaPoints');
+  syncScoreFromFirebase('scores/jozyPoints', 'jozyPoints');
+  syncScoreFromFirebase('scores/musaWins', 'musaPointss');
+  syncScoreFromFirebase('scores/jozyWins', 'jozyPointss');
+
+  // Patch window functions to update Firebase as well
+  window.addMusaPoints = function() {
+    const el = document.getElementById('musaPoints');
+    let val = parseInt(el.textContent, 10) + 1;
+    updateFirebaseScore('scores/musaPoints', val);
+    el.textContent = val;
+    showScoreImage('scoreImage1', 'Scoreboard_Images_And_Music/+1 Musa Point!.png');
+    playSound('Scoreboard_Images_And_Music/crowd-cheering.mp3');
+    checkWinner();
+  };
+  window.subtractMusaPoints = function() {
+    const el = document.getElementById('musaPoints');
+    let val = parseInt(el.textContent, 10) - 1;
+    updateFirebaseScore('scores/musaPoints', val);
+    el.textContent = val;
+    playSound('Scoreboard_Images_And_Music/Awww.mp3');
+    checkWinner();
+  };
+  window.addJozyPoints = function() {
+    const el = document.getElementById('jozyPoints');
+    let val = parseInt(el.textContent, 10) + 1;
+    updateFirebaseScore('scores/jozyPoints', val);
+    el.textContent = val;
+    showScoreImage('scoreImage1', 'Scoreboard_Images_And_Music/+1 Jozy Point!.png');
+    playSound('Scoreboard_Images_And_Music/crowd-cheering.mp3');
+    checkWinner();
+  };
+  window.subtractJozyPoints = function() {
+    const el = document.getElementById('jozyPoints');
+    let val = parseInt(el.textContent, 10) - 1;
+    updateFirebaseScore('scores/jozyPoints', val);
+    el.textContent = val;
+    playSound('Scoreboard_Images_And_Music/Awww.mp3');
+    checkWinner();
+  };
+  window.resetPoints = function() {
+    updateFirebaseScore('scores/musaPoints', 0);
+    updateFirebaseScore('scores/jozyPoints', 0);
+    document.getElementById('musaPoints').textContent = '0';
+    document.getElementById('jozyPoints').textContent = '0';
+    playSound('Scoreboard_Images_And_Music/Dun-Dun-Duun.mp3');
+    checkWinner();
+  };
+  window.addMusaPointss = function() {
+    const el = document.getElementById('musaPointss');
+    let val = parseInt(el.textContent, 10) + 1;
+    updateFirebaseScore('scores/musaWins', val);
+    el.textContent = val;
+    showScoreImage('scoreImage2', 'Scoreboard_Images_And_Music/+1 Musa Win!.png');
+    playSound('Scoreboard_Images_And_Music/crowd-cheering.mp3');
+  };
+  window.subtractMusaPointss = function() {
+    const el = document.getElementById('musaPointss');
+    let val = parseInt(el.textContent, 10) - 1;
+    updateFirebaseScore('scores/musaWins', val);
+    el.textContent = val;
+    playSound('Scoreboard_Images_And_Music/Awww.mp3');
+  };
+  window.addJozyPointss = function() {
+    const el = document.getElementById('jozyPointss');
+    let val = parseInt(el.textContent, 10) + 1;
+    updateFirebaseScore('scores/jozyWins', val);
+    el.textContent = val;
+    showScoreImage('scoreImage2', 'Scoreboard_Images_And_Music/+1 Jozy Win!.png');
+    playSound('Scoreboard_Images_And_Music/crowd-cheering.mp3');
+  };
+  window.subtractJozyPointss = function() {
+    const el = document.getElementById('jozyPointss');
+    let val = parseInt(el.textContent, 10) - 1;
+    updateFirebaseScore('scores/jozyWins', val);
+    el.textContent = val;
+    playSound('Scoreboard_Images_And_Music/Awww.mp3');
+  };
+  window.resetPointss = function() {
+    updateFirebaseScore('scores/musaWins', 0);
+    updateFirebaseScore('scores/jozyWins', 0);
+    document.getElementById('musaPointss').textContent = '0';
+    document.getElementById('jozyPointss').textContent = '0';
+    playSound('Scoreboard_Images_And_Music/Dun-Dun-Duun.mp3');
+  };
+</script>
 </body>
 </html>
