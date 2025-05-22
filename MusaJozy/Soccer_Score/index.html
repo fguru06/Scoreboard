@@ -7,9 +7,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div style="text-align:center; margin-bottom: 16px;">
-      <p>Soccer Scoreboard</p>
-      <span id="winnerMessage">&nbsp;</span>
+    <div style="text-align:center; margin-bottom: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <p style="margin: 0 0 8px 0;">Soccer Scoreboard</p>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <span id="winnerMessage">&nbsp;</span>
+        <img id="winnerPhoto" src="" alt="Winner Photo" style="display:none; vertical-align:middle; height:60px; margin-left:12px; border-radius:12px; box-shadow:0 2px 8px #0002; object-fit:contain; background:#fff;" />
+      </div>
     </div>
     <div class="Buttons_and_Scoreboard">
         <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
@@ -49,6 +52,10 @@
     <div style="text-align:center;">
       <img id="scoreImage2" style="display:none; max-height:100px; transition: opacity 0.5s; opacity:0;" />
     </div>
+    <!-- Highcharts container for wins graph -->
+    <div id="winsChart" style="width:100%; max-width:600px; height:400px; margin: 32px auto;"></div>
+    <!-- Highcharts JS -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="script.js"></script>
     <script type="module">
   // Import the functions you need from the SDKs you need
@@ -162,6 +169,66 @@
     updateFirebaseScore('soccerScores/jozyWins', 0);
     playSound('Scoreboard_Images_And_Music/Dun-Dun-Duun.mp3');
   };
-</script>
-</body>
+      // --- Highcharts Winning Graph ---
+      let winsChart;
+      function renderWinsChart(musaWins, jozyWins) {
+        if (!winsChart) {
+          winsChart = Highcharts.chart('winsChart', {
+            chart: { type: 'column' },
+            title: { text: 'Wins Comparison' },
+            xAxis: { categories: ['Musa', 'Jozy'] },
+            yAxis: { min: 0, title: { text: 'Wins' } },
+            series: [{
+              name: 'Wins',
+              data: [musaWins, jozyWins],
+              colorByPoint: true
+            }],
+            credits: { enabled: false }
+          });
+        } else {
+          winsChart.series[0].setData([musaWins, jozyWins]);
+        }
+      }
+      // Listen for wins changes and update chart
+      function syncWinsChart() {
+        const musaRef = ref(db, 'soccerScores/musaWins');
+        const jozyRef = ref(db, 'soccerScores/jozyWins');
+        let musaWins = 0, jozyWins = 0;
+        onValue(musaRef, (snap) => {
+          musaWins = snap.val() || 0;
+          renderWinsChart(musaWins, jozyWins);
+        });
+        onValue(jozyRef, (snap) => {
+          jozyWins = snap.val() || 0;
+          renderWinsChart(musaWins, jozyWins);
+        });
+      }
+      syncWinsChart();
+
+      // Update winner message and photo
+      function checkWinner() {
+  const musa = parseInt(document.getElementById('musaPoints').textContent, 10);
+  const jozy = parseInt(document.getElementById('jozyPoints').textContent, 10);
+  const winnerMsg = document.getElementById('winnerMessage');
+  const winnerPhoto = document.getElementById('winnerPhoto');
+  if (musa > jozy) {
+    const diff = musa - jozy;
+    winnerMsg.textContent = `Musa is winning by ${diff}!`;
+    winnerPhoto.src = "Scoreboard_Images_And_Music/+1 Musa Point!.png";
+    winnerPhoto.style.display = "inline-block";
+  } else if (jozy > musa) {
+    const diff = jozy - musa;
+    winnerMsg.textContent = `Jozy is winning by ${diff}!`;
+    winnerPhoto.src = "Scoreboard_Images_And_Music/+1 Jozy Point!.png";
+    winnerPhoto.style.display = "inline-block";
+  } else if (musa === 0 && jozy === 0) {
+    winnerMsg.textContent = "";
+    winnerPhoto.style.display = "none";
+  } else {
+    winnerMsg.textContent = "It's a tie!";
+    winnerPhoto.style.display = "none";
+  }
+}
+    </script>
+  </body>
 </html>
