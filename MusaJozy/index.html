@@ -5,21 +5,24 @@
     <title>Scoreboard Home Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-    <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:100vh; background:linear-gradient(135deg,#f8fafc 0%,#e0e7ff 100%);">
-        <div style="background:#fff; border-radius:16px; box-shadow:0 4px 24px #0002; padding:40px 32px; margin-top:2vh; min-width:320px;">
-            <h1 style="font-family:'Segoe UI',Verdana,sans-serif; color:#2d3748; font-size:2.2em; margin-bottom:24px; letter-spacing:1px;">🏆 Musa & Jozy Scoreboards</h1>
-            <label for="scoreboardDropdown" style="font-size:1.2em; font-weight:bold; color:#444;">Choose a scoreboard:</label>
-            <select id="scoreboardDropdown" onchange="if(this.value) location.href=this.value;" style="font-size:1.1em; margin:18px 0 0 0; padding:8px 16px; border-radius:8px; border:1px solid #bfc7d1; background:#f1f5fa; color:#222; outline:none; transition:box-shadow 0.2s;">
+<body style="background: linear-gradient(135deg, #f8fafc 0%, #fbbf24 100%), url('https://www.transparenttextures.com/patterns/food.png'); background-blend-mode: lighten; background-size: cover, auto; min-height:100vh;">
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:100vh;">
+        <div style="background:#fffbe6; border-radius:16px; box-shadow:0 4px 24px #fbbf24aa; padding:40px 32px; margin-top:2vh; min-width:320px; max-width:95vw;">
+            <h1 style="font-family:'Segoe UI',Verdana,sans-serif; color:#b45309; font-size:2.2em; margin-bottom:24px; letter-spacing:1px; text-shadow:0 2px 8px #fbbf24;">🏆 Musa & Jozy Scoreboards</h1>
+            <label for="scoreboardDropdown" style="font-size:1.2em; font-weight:bold; color:#b45309;">Choose a scoreboard:</label>
+            <select id="scoreboardDropdown" onchange="if(this.value) location.href=this.value;" style="font-size:1.1em; margin:18px 0 0 0; padding:8px 16px; border-radius:8px; border:1px solid #fbbf24; background:#fffbe6; color:#b45309; outline:none; transition:box-shadow 0.2s; box-shadow:0 2px 8px #fbbf24;">
                 <option value="">-- Select --</option>
-                <option value="Soccer_Score/index.html">⚽Soccer Scoreboard</option>
-                <option value="Pickleball_Score/index.html">🎾 Pickleball Scoreboard</option>
+                <option value="Soccer_Score/index.html">⚽ Soccer Scoreboard</option>
+                <option value="Pickleball_Score/index.html">🏓 Pickleball Scoreboard</option>
                 <option value="Squash_Score/index.html">🎾 Squash Scoreboard</option>
             </select>
-            <div style="margin-top:32px; color:#6b7280; font-size:1em;">
-                <p>Welcome! Select a scoreboard above to start tracking your games.<br>
-                Each scoreboard is live and shared for everyone.<br>
-                <span style="font-size:0.95em; color:#a0aec0;">(Powered by Firebase Realtime Database and 2 smart people.)</span></p>
+            <div style="margin-top:32px; color:#b45309; font-size:1.1em; text-align:center;">
+                <p style="margin-bottom:8px;">Welcome! Select a scoreboard above to start tracking your games.<br>
+                Each scoreboard is <span style="color:#f59e42; font-weight:bold;">live</span> and shared for everyone.<br>
+                <span style="font-size:0.95em; color:#b45309;">(Powered by <span style="color:#2563eb;">Firebase Realtime Database</span> and <span style="color:#f59e42;">2 smart people</span>.)</span></p>
+                <img src="https://img.icons8.com/ios-filled/50/football2--v1.png" alt="Soccer Ball" style="height:48px; margin:8px 8px 0 0; vertical-align:middle;" />
+                <img src="https://img.icons8.com/color/96/000000/table-tennis.png" alt="Pickleball" style="height:48px; margin:8px 8px 0 0; vertical-align:middle;" />
+                <img src="https://img.icons8.com/color/48/tennis.png" alt="Squash (Tennis)" style="height:48px; width:48px; margin:8px 0 0 0; vertical-align:middle; border-radius:8px; object-fit:cover;" />
             </div>
         </div>
     </div>
