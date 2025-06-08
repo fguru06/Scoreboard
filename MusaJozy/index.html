@@ -4,13 +4,140 @@
     <meta charset="UTF-8">
     <title>Scoreboard Home Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      :root {
+        --bg-light: linear-gradient(135deg, #f8fafc 0%, #fbbf24 100%);
+        --bg-dark: linear-gradient(135deg, #23272f 0%, #b45309 100%);
+        --panel-light: #fffbe6;
+        --panel-dark: #2d2d2d;
+        --text-light: #b45309;
+        --text-dark: #fbbf24;
+        --label-light: #b45309;
+        --label-dark: #fbbf24;
+        --border-light: #fbbf24;
+        --border-dark: #b45309;
+      }
+      body {
+        background: var(--bg-light);
+        background-size: cover;
+        background-blend-mode: initial;
+        min-height:100vh;
+        transition: background 0.4s;
+      }
+      body.dark-mode {
+        background: var(--bg-dark);
+      }
+      /* Pattern overlay using ::before for consistent color/contrast in both modes */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: url('https://www.transparenttextures.com/patterns/food.png') repeat;
+        opacity: 0.48;
+        filter: brightness(0.75) contrast(1.35) grayscale(0.05);
+        mix-blend-mode: multiply;
+      }
+      body.dark-mode::before {
+        opacity: 0.22;
+        filter: brightness(1.7) contrast(1.1) grayscale(0.1);
+        mix-blend-mode: screen;
+      }
+      /* Ensure main content is above the pattern overlay */
+      body > div {
+        position: relative;
+        z-index: 1;
+      }
+      .scoreboard-panel {
+        background: var(--panel-light);
+        border-radius:16px;
+        box-shadow:0 4px 24px #fbbf24aa;
+        padding:40px 32px;
+        margin-top:2vh;
+        min-width:320px;
+        max-width:95vw;
+        transition: background 0.4s;
+      }
+      body.dark-mode .scoreboard-panel {
+        background: var(--panel-dark);
+        box-shadow:0 4px 24px #b45309aa;
+      }
+      .scoreboard-title {
+        font-family:'Segoe UI',Verdana,sans-serif;
+        color: var(--text-light);
+        font-size:2.2em;
+        margin-bottom:24px;
+        letter-spacing:1px;
+        text-shadow:0 2px 8px #fbbf24;
+        transition: color 0.4s;
+      }
+      body.dark-mode .scoreboard-title {
+        color: var(--text-dark);
+        text-shadow:0 2px 8px #23272f;
+      }
+      .scoreboard-label {
+        font-size:1.2em;
+        font-weight:bold;
+        color: var(--label-light);
+        transition: color 0.4s;
+      }
+      body.dark-mode .scoreboard-label {
+        color: var(--label-dark);
+      }
+      .scoreboard-select {
+        font-size:1.1em;
+        margin:18px 0 0 0;
+        padding:8px 16px;
+        border-radius:8px;
+        border:1px solid var(--border-light);
+        background: var(--panel-light);
+        color: var(--label-light);
+        outline:none;
+        transition:box-shadow 0.2s, background 0.4s, color 0.4s, border 0.4s;
+        box-shadow:0 2px 8px #fbbf24;
+      }
+      body.dark-mode .scoreboard-select {
+        border:1px solid var(--border-dark);
+        background: var(--panel-dark);
+        color: var(--label-dark);
+        box-shadow:0 2px 8px #b45309;
+      }
+      .scoreboard-icons img {
+        filter: none;
+        transition: filter 0.4s;
+      }
+      body.dark-mode .scoreboard-icons img {
+        filter: brightness(0.85) drop-shadow(0 0 8px #fbbf24);
+      }
+      .toggle-mode-btn {
+        margin-top: 12px;
+        margin-bottom: 8px;
+        padding: 6px 18px;
+        border-radius: 8px;
+        border: none;
+        background: linear-gradient(135deg, #f8fafc 0%, #fbbf24 100%);
+        color: #b45309;
+        font-weight: bold;
+        font-size: 1em;
+        cursor: pointer;
+        box-shadow: 0 2px 8px #fbbf24;
+        transition: background 0.3s, color 0.3s;
+      }
+      body.dark-mode .toggle-mode-btn {
+        background: linear-gradient(135deg, #23272f 0%, #b45309 100%);
+        color: #fbbf24;
+        box-shadow: 0 2px 8px #b45309;
+      }
+    </style>
 </head>
-<body style="background: linear-gradient(135deg, #f8fafc 0%, #fbbf24 100%), url('https://www.transparenttextures.com/patterns/food.png'); background-blend-mode: lighten; background-size: cover, auto; min-height:100vh;">
+<body>
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:100vh;">
-        <div style="background:#fffbe6; border-radius:16px; box-shadow:0 4px 24px #fbbf24aa; padding:40px 32px; margin-top:2vh; min-width:320px; max-width:95vw;">
-            <h1 style="font-family:'Segoe UI',Verdana,sans-serif; color:#b45309; font-size:2.2em; margin-bottom:24px; letter-spacing:1px; text-shadow:0 2px 8px #fbbf24;">🏆 Musa & Jozy Scoreboards</h1>
-            <label for="scoreboardDropdown" style="font-size:1.2em; font-weight:bold; color:#b45309;">Choose a scoreboard:</label>
-            <select id="scoreboardDropdown" onchange="if(this.value) location.href=this.value;" style="font-size:1.1em; margin:18px 0 0 0; padding:8px 16px; border-radius:8px; border:1px solid #fbbf24; background:#fffbe6; color:#b45309; outline:none; transition:box-shadow 0.2s; box-shadow:0 2px 8px #fbbf24;">
+        <div class="scoreboard-panel">
+            <button class="toggle-mode-btn" onclick="toggleMode()">Toggle Light/Dark Mode</button>
+            <h1 class="scoreboard-title">🏆 Musa & Jozy Scoreboards</h1>
+            <label for="scoreboardDropdown" class="scoreboard-label">Choose a scoreboard:</label>
+            <select id="scoreboardDropdown" class="scoreboard-select" onchange="if(this.value) location.href=this.value;">
                 <option value="">-- Select --</option>
                 <option value="Soccer_Score/index.html">⚽ Soccer Scoreboard</option>
                 <option value="Pickleball_Score/index.html">🏓 Pickleball Scoreboard</option>
@@ -20,12 +147,26 @@
                 <p style="margin-bottom:8px;">Welcome! Select a scoreboard above to start tracking your games.<br>
                 Each scoreboard is <span style="color:#f59e42; font-weight:bold;">live</span> and shared for everyone.<br>
                 <span style="font-size:0.95em; color:#b45309;">(Powered by <span style="color:#2563eb;">Firebase Realtime Database</span> and <span style="color:#f59e42;">2 smart people</span>.)</span></p>
-                <img src="https://img.icons8.com/ios-filled/50/football2--v1.png" alt="Soccer Ball" style="height:48px; margin:8px 8px 0 0; vertical-align:middle;" />
-                <img src="https://img.icons8.com/color/96/000000/table-tennis.png" alt="Pickleball" style="height:48px; margin:8px 8px 0 0; vertical-align:middle;" />
-                <img src="https://img.icons8.com/color/48/tennis.png" alt="Squash (Tennis)" style="height:48px; width:48px; margin:8px 0 0 0; vertical-align:middle; border-radius:8px; object-fit:cover;" />
+                <div class="scoreboard-icons">
+                  <img src="https://img.icons8.com/ios-filled/50/football2--v1.png" alt="Soccer Ball" style="height:48px; margin:8px 8px 0 0; vertical-align:middle;" />
+                  <img src="https://img.icons8.com/color/96/000000/table-tennis.png" alt="Pickleball" style="height:48px; margin:8px 8px 0 0; vertical-align:middle;" />
+                  <img src="https://img.icons8.com/color/48/tennis.png" alt="Squash (Tennis)" style="height:48px; width:48px; margin:8px 0 0 0; vertical-align:middle; border-radius:8px; object-fit:cover;" />
+                </div>
             </div>
         </div>
     </div>
-    
+    <script>
+      // Light/Dark mode toggle
+      function toggleMode() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('mjz-mode', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      }
+      // On load, set mode from localStorage
+      (function() {
+        if(localStorage.getItem('mjz-mode') === 'dark') {
+          document.body.classList.add('dark-mode');
+        }
+      })();
+    </script>
 </body>
 </html>
