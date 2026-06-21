@@ -2,25 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Scoreboard Home Page</title>
+    <title>🏆 Scoreboard Creation 🏆</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:100vh; background:linear-gradient(135deg,#f8fafc 0%,#e0e7ff 100%);">
-        <div style="background:#fff; border-radius:16px; box-shadow:0 4px 24px #0002; padding:40px 32px; margin-top:2vh; min-width:320px;">
-            <h1 style="font-family:'Segoe UI',Verdana,sans-serif; color:#2d3748; font-size:2.2em; margin-bottom:24px; letter-spacing:1px;">🏆 Musa Family Scoreboards</h1>
-            <label for="scoreboardDropdown" style="font-size:1.2em; font-weight:bold; color:#444;">Choose a scoreboard:</label>
-            <select id="scoreboardDropdown" onchange="if(this.value) location.href=this.value;" style="font-size:1.1em; margin:18px 0 0 0; padding:8px 16px; border-radius:8px; border:1px solid #bfc7d1; background:#f1f5fa; color:#222; outline:none; transition:box-shadow 0.2s;">
-                <option value="">-- Select --</option>
-                <option value="MusaJozy/index.html">⚽ Musa & Jozy Scoreboards</option>
-                <option value="MusaMama/index.html">👩 Musa & Mama Scoreboard</option>
-            </select>
-            <div style="margin-top:32px; color:#6b7280; font-size:1em;">
-                <p>Welcome! Select a scoreboard above to start tracking your games.<br>
-                Each scoreboard is live and shared for everyone.<br>
-                <span style="font-size:0.95em; color:#a0aec0;">(Powered by Firebase Realtime Database and 2 smart people.)</span></p>
+    <div class="container">
+        <h1>🏆 Scoreboard Creator 🏆</h1>
+        <p class="subtitle">Create your own live scoreboard — play, track, and share with friends!</p>
+
+        <!-- Create New Scoreboard -->
+        <div class="create-card">
+            <h2>✨ Create New Scoreboard</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sbTitle">Scoreboard Title</label>
+                    <input type="text" id="sbTitle" placeholder="e.g. Soccer Finals" maxlength="40" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="player1Name">Player 1 Name</label>
+                    <input type="text" id="player1Name" placeholder="e.g. Bob" maxlength="20" />
+                </div>
+                <div class="form-group">
+                    <label for="player2Name">Player 2 Name</label>
+                    <input type="text" id="player2Name" placeholder="e.g. Jordan" maxlength="20" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sbTheme">Theme / Sport Icon</label>
+                    <select id="sbTheme">
+                        <option value="⚽">⚽ Soccer</option>
+                        <option value="🏓">🏓 Pickleball</option>
+                        <option value="🎾">🎾 Squash / Tennis</option>
+                        <option value="🏃">🏃 Tag / Running</option>
+                        <option value="🏀">🏀 Basketball</option>
+                        <option value="🏈">🏈 Football</option>
+                        <option value="⚾">⚾ Baseball</option>
+                        <option value="🎯">🎯 Darts</option>
+                        <option value="🎳">🎳 Bowling</option>
+                        <option value="🏐">🏐 Volleyball</option>
+                        <option value="🥊">🥊 Boxing</option>
+                        <option value="🏊">🏊 Swimming</option>
+                        <option value="🚴">🚴 Cycling</option>
+                        <option value="🎮">🎮 Video Games</option>
+                        <option value="♟️">♟️ Chess</option>
+                        <option value="🎲">🎲 Board Games</option>
+                    </select>
+                </div>
+                <div class="form-group" style="display:flex; align-items:flex-end;">
+                    <button class="btn btn-primary" onclick="createScoreboard()" style="width:100%;">➕ Create Scoreboard</button>
+                </div>
             </div>
         </div>
+
+        <!-- Scoreboard List -->
+        <h2 style="margin-bottom:16px; font-size:1.3em; color:#e2e8f0;">📋 Your Scoreboards</h2>
+        <div id="scoreboardList" class="scoreboard-list">
+            <!-- Populated by JavaScript -->
+        </div>
     </div>
+
+    <script src="index.js"></script>
 </body>
 </html>
