@@ -5,12 +5,12 @@ import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebase
 const firebaseConfig = {
     apiKey: "AIzaSyDp-yBej7gvcmWseYho5FaMGnZJWX7gR1o",
     authDomain: "scoreboard-55555.firebaseapp.com",
+    databaseURL: "https://scoreboard-55555-default-rtdb.firebaseio.com",
     projectId: "scoreboard-55555",
     storageBucket: "scoreboard-55555.firebasestorage.app",
     messagingSenderId: "847257217379",
     appId: "1:847257217379:web:3ce09c199fd3cf6ec84b56",
-    measurementId: "G-LB23M5YMVL",
-    databaseURL: "https://scoreboard-55555-default-rtdb.firebaseio.com/"
+    measurementId: "G-LB23M5YMVL"
 };
 
 const app = initializeApp(firebaseConfig);
