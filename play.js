@@ -119,13 +119,19 @@ main.innerHTML = `
         <div class="player-row">
             <div class="player-card p1">
                 <div class="wins-label">${player1} Wins</div>
-                <div class="wins-score" id="p1Wins" onclick="openNumpad('p1Wins','p1-color')">0</div>
-                <button class="btn btn-set" onclick="openNumpad('p1Wins','p1-color')">✏️ Set Wins</button>
+                <div class="wins-score" id="p1Wins">0</div>
+                <div class="wins-btns">
+                    <button class="btn btn-win-plus" id="p1WinPlus">+1</button>
+                    <button class="btn btn-win-minus" id="p1WinMinus">−1</button>
+                </div>
             </div>
             <div class="player-card p2">
                 <div class="wins-label">${player2} Wins</div>
-                <div class="wins-score" id="p2Wins" onclick="openNumpad('p2Wins','p2-color')">0</div>
-                <button class="btn btn-set" onclick="openNumpad('p2Wins','p2-color')">✏️ Set Wins</button>
+                <div class="wins-score" id="p2Wins">0</div>
+                <div class="wins-btns">
+                    <button class="btn btn-win-plus" id="p2WinPlus">+1</button>
+                    <button class="btn btn-win-minus" id="p2WinMinus">−1</button>
+                </div>
             </div>
         </div>
 
@@ -221,6 +227,32 @@ function closeNumpad() {
     if (el) el.remove();
     numpadTarget = null;
 }
+
+// ---- Win Button Handlers ----
+function updateWins(elementId, delta) {
+    const el = document.getElementById(elementId);
+    let val = parseInt(el.textContent, 10) || 0;
+    val = Math.max(0, val + delta);
+    el.textContent = val;
+    persistAll();
+}
+
+document.getElementById('p1WinPlus').addEventListener('click', () => {
+    updateWins('p1Wins', 1);
+    playSound('cheer');
+});
+document.getElementById('p1WinMinus').addEventListener('click', () => {
+    updateWins('p1Wins', -1);
+    playSound('aww');
+});
+document.getElementById('p2WinPlus').addEventListener('click', () => {
+    updateWins('p2Wins', 1);
+    playSound('cheer');
+});
+document.getElementById('p2WinMinus').addEventListener('click', () => {
+    updateWins('p2Wins', -1);
+    playSound('aww');
+});
 
 // ---- Reset Handlers ----
 document.getElementById('resetBtn').addEventListener('click', () => {
