@@ -1,3 +1,30 @@
+// ---- Firebase Setup ----
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDp-yBej7gvcmWseYho5FaMGnZJWX7gR1o",
+    authDomain: "scoreboard-55555.firebaseapp.com",
+    projectId: "scoreboard-55555",
+    storageBucket: "scoreboard-55555.firebasestorage.app",
+    messagingSenderId: "847257217379",
+    appId: "1:847257217379:web:3ce09c199fd3cf6ec84b56",
+    measurementId: "G-LB23M5YMVL",
+    databaseURL: "https://scoreboard-55555-default-rtdb.firebaseio.com/"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const connStatus = document.getElementById('connectionStatus');
+
+// Connection timeout
+const connTimeout = setTimeout(() => {
+    if (connStatus.textContent === '● Connecting...') {
+        connStatus.textContent = '● Timed out';
+        connStatus.style.color = '#fbbf24';
+    }
+}, 6000);
+
 // ---- Helpers ----
 function showToast(msg, type = 'success') {
     const t = document.createElement('div');
@@ -36,17 +63,6 @@ function playSound(name) {
         audio.currentTime = 0;
         audio.play();
     } catch(e) {}
-}
-
-// ---- LocalStorage Persistence ----
-function getSbData(id) {
-    try {
-        return JSON.parse(localStorage.getItem('sbData_' + id)) || {};
-    } catch { return {}; }
-}
-
-function saveSbData(id, data) {
-    localStorage.setItem('sbData_' + id, JSON.stringify(data));
 }
 
 // ---- Main ----
@@ -141,22 +157,62 @@ main.innerHTML = `
     </div>
 `;
 
-// ---- Load saved scores ----
-const saved = getSbData(sbId);
-if (saved.p1Score !== undefined) document.getElementById('p1Score').textContent = saved.p1Score;
-if (saved.p2Score !== undefined) document.getElementById('p2Score').textContent = saved.p2Score;
-if (saved.p1Wins !== undefined) document.getElementById('p1Wins').textContent = saved.p1Wins;
-if (saved.p2Wins !== undefined) document.getElementById('p2Wins').textContent = saved.p2Wins;
+// ---- Firebase Paths ----
+const fbPath = `customScores/${sbId}`;
 
-// ---- Persist helper ----
+// ---- Persist helper (writes to both Firebase + localStorage) ----
 function persistAll() {
-    saveSbData(sbId, {
-        p1Score: document.getElementById('p1Score').textContent,
-        p2Score: document.getElementById('p2Score').textContent,
-        p1Wins: document.getElementById('p1Wins').textContent,
-        p2Wins: document.getElementById('p2Wins').textContent
+    const p1Score = document.getElementById('p1Score').textContent;
+    const p2Score = document.getElementById('p2Score').textContent;
+    const p1Wins = document.getElementById('p1Wins').textContent;
+    const p2Wins = document.getElementById('p2Wins').textContent;
+
+    // localStorage fallback
+    try { localStorage.setItem('sbData_' + sbId, JSON.stringify({ p1Score, p2Score, p1Wins, p2Wins })); } catch(e) {}
+
+    // Firebase — write each value individually for reliable cross-device sync
+    set(ref(db, `${fbPath}/p1Score`), p1Score).catch(() => {});
+    set(ref(db, `${fbPath}/p2Score`), p2Score).catch(() => {});
+    set(ref(db, `${fbPath}/p1Wins`), p1Wins).catch(() => {});
+    set(ref(db, `${fbPath}/p2Wins`), p2Wins).catch(() => {});
+}
+
+// ---- Firebase Sync ----
+function syncFromFB(path, elementId) {
+    onValue(ref(db, path), (snapshot) => {
+        clearTimeout(connTimeout);
+        const val = snapshot.val();
+        if (val !== null) {
+            document.getElementById(elementId).textContent = val;
+        }
+        if (connStatus.textContent !== '● Live') {
+            connStatus.textContent = '● Live';
+            connStatus.style.color = '#22c55e';
+        }
+    }, () => {
+        clearTimeout(connTimeout);
+        connStatus.textContent = '● Offline';
+        connStatus.style.color = '#ef4444';
     });
 }
+
+// Sync all four values from Firebase
+syncFromFB(`${fbPath}/p1Score`, 'p1Score');
+syncFromFB(`${fbPath}/p2Score`, 'p2Score');
+syncFromFB(`${fbPath}/p1Wins`, 'p1Wins');
+syncFromFB(`${fbPath}/p2Wins`, 'p2Wins');
+
+// ---- Load localStorage backup instantly (before Firebase responds) ----
+try {
+    const backup = JSON.parse(localStorage.getItem('sbData_' + sbId));
+    if (backup) {
+        if (backup.p1Score !== undefined) document.getElementById('p1Score').textContent = backup.p1Score;
+        if (backup.p2Score !== undefined) document.getElementById('p2Score').textContent = backup.p2Score;
+        if (backup.p1Wins !== undefined) document.getElementById('p1Wins').textContent = backup.p1Wins;
+        if (backup.p2Wins !== undefined) document.getElementById('p2Wins').textContent = backup.p2Wins;
+        checkWinner();
+    }
+} catch(e) {}
 
 // ---- Numpad Modal ----
 let numpadTarget = null;
